@@ -1,0 +1,483 @@
+@font-face {
+  font-family: 'icons8_win10';
+  src:url('https://hrportal.network-contacts.it/HRPORTAL/fonts/icons8_win10.eot');
+  src: url('https://hrportal.network-contacts.it/HRPORTAL/fonts/icons8_win10.eot#icons8_win10') format('embedded-opentype'),
+    url('https://hrportal.network-contacts.it/HRPORTAL/fonts/icons8_win10.woff2') format('woff2'),
+    url('https://hrportal.network-contacts.it/HRPORTAL/fonts/icons8_win10.svg#icons8_win10') format('svg'),
+    url('https://hrportal.network-contacts.it/HRPORTAL/fonts/icons8_win10.woff') format('woff'),
+    url('https://hrportal.network-contacts.it/HRPORTAL/fonts/icons8_win10.ttf') format('truetype');
+}
+
+/* Loading */
+.pagelet_container,
+.pagelet_item {
+  width: 100%;
+}
+.pagelet_item{
+  /* float: left; */
+}
+/* Stretch environment */
+/* Per le pagelet vecchie in caso di height 100% cerco di far scrollare il body */
+html[ps-stretch] body > .ps_table_cont {
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+html[ps-stretch],
+html[ps-stretch] body,
+html[ps-stretch] .pagelet_container{
+  height: 100%;
+}
+.item_stretch_container{
+  height: 100%;
+  display: table;
+}
+.item_stretch_container.item_behavior_show{
+  display: table;
+}
+.item_behavior_show.item_behavior_before_stretch_row,
+.item_behavior_show.item_behavior_after_stretch_row,
+.item_behavior_show.item_stretch_row {
+  display: table-row;
+  /* float: none; */
+}
+.item_behavior_show.item_stretch_row:empty {
+  display: none;
+}
+
+.item_behavior_show.item_behavior_before_stretch_cell,
+.item_behavior_show.item_behavior_after_stretch_cell,
+.item_behavior_show.item_stretch_cell {
+  display: table-cell;
+  /* float: none; */
+}
+.item_stretch_cell{
+  height: 100%;
+}
+
+.flexArea > .item_stretch {
+  display: block;
+}
+/* gli elementi nello stretch_cell devono avere l'overflow auto ed altezza 100%
+* in questo modo la scroll compare solo all'elemento che sfora e non all'eventuale area
+*/
+.item_stretch_cell > .item_stretch,
+.item_stretch_cell > div,
+.item_stretch_cell > .flexArea > .item_stretch,
+.item_stretch_cell > .noflex > .item_stretch{
+  font-size: 0;
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  /* float: left; */
+  /* trik per FF e IE */
+  /* max-height: 1px; */
+  /* min-height: 100%; */
+}
+.item_stretch_cell > .flexArea > .item_stretch{
+  overflow: hidden;
+}
+.item_stretch_cell > .flexArea,
+.item_stretch_cell > .noflex
+/* .item_stretch_cell > .item_stretch.remove_trick_stretch,
+.item_stretch_cell > div.remove_trick_stretch */ {
+  height: 100%;
+  /* float: none; */
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  max-height: none;
+  max-height: unset;
+  min-height: unset;
+}
+@-moz-document url-prefix() {
+  .item_stretch_cell > .item_stretch,
+  .item_stretch_cell > div,
+  .item_stretch_cell > .flexArea > .item_stretch,
+  .item_stretch_cell > .noflex > .item_stretch{
+    max-height: 1px;
+    min-height: 100%;
+  }
+  /* Fix per pagelet stretch dentro a pagelet: non si vedeva il contenuto */
+  .pagelet_container .pagelet_container {
+    flex-direction: column;
+  }
+}
+
+.item_stretch.item_behavior_show[ps-stretch-height] > div, /*_content delle risorse static*/
+.item_stretch.item_behavior_show[ps-stretch-height][ps-group],/*_container*/
+.item_stretch.item_behavior_show[ps-stretch-height][ps-group] > div {/*_content*/
+/* .item_stretch.item_behavior_show[ps-stretch-height][ps-group] > div > div[ps-group-item]:first-child:last-child{/*container degli item dei gruppi*/
+  height: 100%;
+}
+
+.item_stretch.item_behavior_show[ps-stretch-height][ps-group] > div {/*_content*/
+  overflow: auto;
+}
+
+.item_stretch.item_behavior_show[ps-stretch-height][ps-group] > div.tabWrapper,
+.item_stretch.item_behavior_show[ps-stretch-height][ps-group] > div.wizardWrapper {/*evita che i tabcontainer prenda height 100%*/
+  height: auto;
+}
+
+/* Per chrome: disturba la max-height a 1px */
+.item_stretch_cell > .flexArea > .item_stretch.item_stretch_container,
+.item_stretch_cell > .noflex > .item_stretch.item_stretch_container{
+  max-height: none;
+}
+
+/* IE11 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .item_stretch_cell > .flexArea > .item_stretch,
+  .item_stretch_cell > .noflex > .item_stretch,
+  .item_stretch_cell > .flexArea,
+  .item_stretch_cell > .noflex{
+    height: 100%;
+    /*height: 100%\9; /* rimuove IE10 */
+    max-height: 1px;
+    min-height: 100%;
+  }
+}
+
+/* if area is stretch and flex */
+.item_stretch > .flexArea,
+.item_stretch > .noflex{
+  height: 100%;
+}
+/* End stretch environment */
+
+
+.pagelet_container{
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+  -ms-flex-direction: row;
+      flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  position: relative;
+}
+
+.flexArea{
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+}
+
+/*.flexArea.row{
+   /* -webkit-flex-flow: row wrap;
+      -moz-flex-flow: row wrap;
+       -ms-flex-flow: row wrap;
+        -o-flex-flow: row wrap;
+           flex-flow: row wrap; */
+          /* flex-direction: row;
+  -webkit-flex-direction: row;
+}
+.flexArea.column{
+          flex-direction: column;
+  -webkit-flex-direction: column;
+}
+.flexArea.wrap{
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+.flexArea.nowrap{
+  -webkit-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+} */
+
+.flexArea.row.wrap{
+   -ms-flex-flow: row wrap;
+    -o-flex-flow: row wrap;
+       flex-flow: row wrap;
+}
+.flexArea.row.nowrap{
+   -ms-flex-flow: row nowrap;
+    -o-flex-flow: row nowrap;
+       flex-flow: row nowrap;
+}
+.flexArea.column.wrap{
+   -ms-flex-flow: column wrap;
+    -o-flex-flow: column wrap;
+       flex-flow: column wrap;
+}
+.flexArea.column.nowrap{
+   -ms-flex-flow: column nowrap;
+    -o-flex-flow: column nowrap;
+       flex-flow: column nowrap;
+}
+
+-.flexArea  > .flex_item{
+  -ms-flex: 1 0 auto;      /* IE 10 */
+      flex: 1 0 auto;      /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+.flexArea > .block_item{
+  display: block;
+}
+-.item_stretch_container
+.flexArea > .flex_item{
+  -ms-flex: 1 0;      /* IE 10 */
+      flex: 1 0;      /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+.item_behavior_popup{
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+}
+.item_behavior_popup > .flexArea {
+          -ms-flex-direction: column;
+              flex-direction: column;
+       -ms-flex-wrap: nowrap;
+           flex-wrap: nowrap;
+}
+.item_behavior_hide,
+.item_behavior_popup.item_behavior_hide{
+  display: none !important;
+}
+.item_behavior_show,
+.item_behavior_popup.item_behavior_show{
+  display: block;
+}
+
+.item_width_0{width:0%;min-width:0%;}
+.item_width_1{width:5%;min-width:5%;}
+.item_width_2{width:10%;min-width:10%;}
+.item_width_3{width:15%;min-width:15%;}
+.item_width_4{width:20%;min-width:20%;}
+.item_width_5{width:25%;min-width:25%;}
+.item_width_6{ width:30%; min-width:30%;}
+.item_width_7{width:35%;min-width:35%;}
+.item_width_8{width:40%;min-width:40%;}
+.item_width_9{width:45%;min-width:45%;}
+.item_width_10{width:50%;min-width:50%;}
+.item_width_11{width:55%;min-width:55%;}
+.item_width_12{width:60%;min-width:60%;}
+.item_width_13{width:65%;min-width:65%;}
+.item_width_14{width:70%;min-width:70%;}
+.item_width_15{width:75%;min-width:75%;}
+.item_width_16{width:80%;min-width:80%;}
+.item_width_17{width:85%;min-width:85%;}
+.item_width_18{width:90%;min-width:90%;}
+.item_width_19{width:95%;min-width:95%;}
+.item_width_20{width: 100%;min-width:100%;}
+
+.type_12 .item_width_0{width:0%;min-width:0%;}
+.type_12 .item_width_1{width:8.33%;min-width:8.33%;}
+.type_12 .item_width_2{width:16.66%;min-width:16.66%;}
+.type_12 .item_width_3{width:25%;min-width:25%;}
+.type_12 .item_width_4{width:33.33%;min-width:33.33%;}
+.type_12 .item_width_5{width:41.66%;min-width:41.66%;}
+.type_12 .item_width_6{width:50%;min-width:50%;}
+.type_12 .item_width_7{width:58.33%;min-width:58.33%;}
+.type_12 .item_width_8{width:66.66%;min-width:66.66%;}
+.type_12 .item_width_9{width:75%;min-width:75%;}
+.type_12 .item_width_10{width:83.33%;min-width:83.33%;}
+.type_12 .item_width_11{width:91.66%;min-width:91.66%;}
+.type_12 .item_width_12{width:100%;min-width:100%;}
+
+.flexArea > .flex_item{
+  -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+  width: auto;
+  min-width: unset;
+  margin-left: unset !important;
+  margin-right: unset !important;
+}
+.flexArea > .flex_item.item_width_0{-ms-flex: 0 1 0px;    flex: 0 1 0px;}
+.flexArea > .flex_item.item_width_1{-ms-flex: 1 1 0px;    flex: 1 1 0px;}
+.flexArea > .flex_item.item_width_2{-ms-flex: 2 1 0px;    flex: 2 1 0px;}
+.flexArea > .flex_item.item_width_3{-ms-flex: 3 1 0px;    flex: 3 1 0px;}
+.flexArea > .flex_item.item_width_4{-ms-flex: 4 1 0px;    flex: 4 1 0px;}
+.flexArea > .flex_item.item_width_5{-ms-flex: 5 1 0px;    flex: 5 1 0px;}
+.flexArea > .flex_item.item_width_6{-ms-flex: 6 1 0px;    flex: 6 1 0px;}
+.flexArea > .flex_item.item_width_7{-ms-flex: 7 1 0px;    flex: 7 1 0px;}
+.flexArea > .flex_item.item_width_8{-ms-flex: 8 1 0px;    flex: 8 1 0px;}
+.flexArea > .flex_item.item_width_9{-ms-flex: 9 1 0px;    flex: 9 1 0px;}
+.flexArea > .flex_item.item_width_10{-ms-flex: 10 1 0px;    flex: 10 1 0px;}
+.flexArea > .flex_item.item_width_11{-ms-flex: 11 1 0px;    flex: 11 1 0px;}
+.flexArea > .flex_item.item_width_12{-ms-flex: 12 1 0px;    flex: 12 1 0px;}
+.flexArea > .flex_item.item_width_13{-ms-flex: 13 1 0px;    flex: 13 1 0px;}
+.flexArea > .flex_item.item_width_14{-ms-flex: 14 1 0px;    flex: 14 1 0px;}
+.flexArea > .flex_item.item_width_15{-ms-flex: 15 1 0px;    flex: 15 1 0px;}
+.flexArea > .flex_item.item_width_16{-ms-flex: 16 1 0px;    flex: 16 1 0px;}
+.flexArea > .flex_item.item_width_17{-ms-flex: 17 1 0px;    flex: 17 1 0px;}
+.flexArea > .flex_item.item_width_18{-ms-flex: 18 1 0px;    flex: 18 1 0px;}
+.flexArea > .flex_item.item_width_19{-ms-flex: 19 1 0px;    flex: 19 1 0px;}
+.flexArea > .flex_item.item_width_20{-ms-flex: 20 1 0px;    flex: 20 1 0px;}
+.flexArea > .flex_item.flex_item_empty{-ms-flex: 0;    flex: 0;
+}
+
+.noflex > div.item_behavior_show {
+  display: inline-block;
+  vertical-align: top;
+}
+.noflex > div.item_behavior_hide {
+  display: none;
+}
+
+.item_prefx_1{margin-left: 5%;}
+.item_prefx_2{margin-left: 10%;}
+.item_prefx_3{margin-left: 15%;}
+.item_prefx_4{margin-left: 20%;}
+.item_prefx_5{margin-left: 25%;}
+.item_prefx_6{margin-left: 30%;}
+.item_prefx_7{margin-left: 35%;}
+.item_prefx_8{margin-left: 40%;}
+.item_prefx_9{margin-left: 45%;}
+.item_prefx_10{margin-left: 50%;}
+.item_prefx_11{margin-left: 55%;}
+.item_prefx_12{margin-left: 60%;}
+.item_prefx_13{margin-left: 65%;}
+.item_prefx_14{margin-left: 70%;}
+.item_prefx_15{margin-left: 75%;}
+.item_prefx_16{margin-left: 80%;}
+.item_prefx_17{margin-left: 85%;}
+.item_prefx_18{margin-left: 90%;}
+.item_prefx_19{margin-left: 95%;}
+
+
+.type_12 .item_prefx_1{margin-left: 8.33%;}
+.type_12 .item_prefx_2{margin-left: 16.66%;}
+.type_12 .item_prefx_3{margin-left: 25%;}
+.type_12 .item_prefx_4{margin-left: 33.33%;}
+.type_12 .item_prefx_5{margin-left: 41.66%;}
+.type_12 .item_prefx_6{margin-left: 50%;}
+.type_12 .item_prefx_7{margin-left: 58.33%;}
+.type_12 .item_prefx_8{margin-left: 66.66%;}
+.type_12 .item_prefx_9{margin-left: 75%;}
+.type_12 .item_prefx_10{margin-left: 83.33%;}
+.type_12 .item_prefx_11{margin-left: 91.66%;}
+
+.item_suffx_1{margin-right: 5%;}
+.item_suffx_2{margin-right: 10%;}
+.item_suffx_3{margin-right: 15%;}
+.item_suffx_4{margin-right: 20%;}
+.item_suffx_5{margin-right: 25%;}
+.item_suffx_6{margin-right: 30%;}
+.item_suffx_7{margin-right: 35%;}
+.item_suffx_8{margin-right: 40%;}
+.item_suffx_9{margin-right: 45%;}
+.item_suffx_10{margin-right: 50%;}
+.item_suffx_11{margin-right: 55%;}
+.item_suffx_12{margin-right: 60%;}
+.item_suffx_13{margin-right: 65%;}
+.item_suffx_14{margin-right: 70%;}
+.item_suffx_15{margin-right: 75%;}
+.item_suffx_16{margin-right: 80%;}
+.item_suffx_17{margin-right: 85%;}
+.item_suffx_18{margin-right: 90%;}
+.item_suffx_19{margin-right: 95%;}
+
+.type_12 .item_suffx_1{margin-right: 8.33%;}
+.type_12 .item_suffx_2{margin-right: 16.66%;}
+.type_12 .item_suffx_3{margin-right: 25%;}
+.type_12 .item_suffx_4{margin-right: 33.33%;}
+.type_12 .item_suffx_5{margin-right: 41.66%;}
+.type_12 .item_suffx_6{margin-right: 50%;}
+.type_12 .item_suffx_7{margin-right: 58.33%;}
+.type_12 .item_suffx_8{margin-right: 66.66%;}
+.type_12 .item_suffx_9{margin-right: 75%;}
+.type_12 .item_suffx_10{margin-right: 83.33%;}
+.type_12 .item_suffx_11{margin-right: 91.66%;}
+
+
+/** editing_tool **/
+.editing_tool_container {
+  position: fixed;
+  z-index: 10003;
+  bottom: 10px;
+  right: 15px;
+  background-color: rgba(255, 255, 255, .95);
+  color: rgba(0,0,0,.65);
+  border: 1px solid #D3D3D3;
+  text-align: right;
+}
+.editing_tool_profiled {
+  position: absolute;
+  z-index: 200;
+  top: 5px;
+  background-color: rgba(255, 255, 255, .85);
+  color: rgba(0,0,0,.35);
+  border: 1px solid #D3D3D3;
+  padding: 5px;
+  border-radius: 50%;
+}
+.editing_tool_profiled.right {
+  right: 5px;
+}
+.editing_tool_profiled.left {
+  left: 5px;
+}
+.editing_tool_container i {
+  cursor: pointer;
+  font-family: "icons8_win10";
+  font-style: normal;
+  font-size: 22px;
+  margin-left: 8px;
+}
+.editing_tool_container .editing_tool {
+  overflow-y: hidden;
+}
+.editing_tool_container ul {
+  display: none;
+  list-style-type: none;
+  padding: 0;
+  margin: 10px 0 0;
+  height: auto;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.editing_tool_container:not(.visible),
+.editing_tool_container.visible .editing_tool_gear {
+  background-color: transparent;
+  border: none;
+}
+.editing_tool_container.visible ul {
+  display: block;
+}
+.editing_tool_container:not(.visible) .editing_tool_gear {
+  background-color: rgba(255, 255, 255, .95);
+  border-radius: 50%;
+  border: 1px solid #D3D3D3;
+}
+.editing_tool_container ul li {
+  padding: 3px 10px 3px 20px;
+}
+.editing_tool_container ul li:hover span {
+  cursor: default;
+  text-decoration: underline;
+}
+
+.editing_tool_container i,
+.editing_tool_container ul li span {
+  line-height: 22px;
+  display: inline-block;
+  vertical-align: top;
+}
+.editing_tool_profiled .editing_tool_security {
+  cursor: pointer;
+  font-family: "icons8_win10";
+  font-style: normal;
+  font-size: 22px;
+  line-height: 22px;
+  display: inline-block;
+  vertical-align: top;
+}
+.editing_tool_profiled .editing_tool_security::after,
+.editing_tool_container .editing_tool_security::after {
+  content: '\ef7b';
+}
+.editing_tool_container .editing_tool_portlet::after {
+  content: '\f0bc';
+}
+.editing_tool_container .editing_tool_gear {
+  padding: 10px;
+  font-size: 30px;
+  line-height: 30px;
+  margin-left: 0;
+}
+.editing_tool_container .editing_tool_gear::after {
+  content: '\ea0f';
+}
+.editing_tool_container.visible .editing_tool_gear::after {
+  content: '\f048';
+}
